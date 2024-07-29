@@ -1,7 +1,9 @@
 require('dotenv').config()
+console.log('Dotenv loaded:', process.env.MONGO_URI)
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const path = require('path')
 const Cat = require('./models/cat.js')
 const MONGO_URI = process.env.MONGO_URI
 
@@ -16,6 +18,7 @@ mongoose.connection.on('error', () => {
     console.log('MongoDb trippin')
 })
 
+
 app.get('/cats', async (req, res) => {
     try{
         const foundCats = await Cat.find({})
@@ -26,3 +29,12 @@ app.get('/cats', async (req, res) => {
 
     }
 })
+app.get('/', (req, res) => {
+    res.send('The server is running properly!')
+})
+
+app.get('/test', (req, res) => {
+    res.send('the server is running properly!')
+})
+
+app.listen(3000, () => console.log('I see connected apps'))
