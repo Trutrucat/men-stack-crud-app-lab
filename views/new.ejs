@@ -9,10 +9,13 @@
   <h1>Post a New Cat!</h1>
   <form action="/cats" method="POST">
     <label for="name">Name:</label>
+    <label type="name">Add Name</button>
     <input type="text" name="name" id="name" />
-    <label for="isReadyToAdopt">Ready to Adopt?</label>
-    <input type="checkbox" name="isReadyToAdopt" id="isReadyToAdopt" />
-    <button type="submit">Add Fruit</button>
+    <input type="text" name="description" id="description"/>
+    <label type="description">Add Description</button>
+    <label for="readyToAdopt">Ready to Adopt?</label>
+    <input type="checkbox" name="readyToAdopt" id="readyToAdopt" />
+    <button type="submit">Add Cat</button>
   </form>
   <a href="/cats/">Back to Cats</a>
 </body>

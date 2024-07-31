@@ -6,10 +6,12 @@ const Cat = require('./models/cat.js')
 const PORT = 3000
 const MONGO_URI = process.env.MONGO_URI
 const logger = require('morgan')
+const methodOverride = require('method-override')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(logger('tiny'))
+app.use(methodOverride('_method'))
 
 mongoose.connect(MONGO_URI)
 
@@ -27,7 +29,7 @@ app.post('/cats', async (req, res) => {
     req.body.readyToAdopt = false
     try{
         const createdCat = await Cat.create(req.body)
-        res.redirect(`/cats/$createdCat._id}`)
+        res.redirect(`/cats/${createdCat._id}`)
     } catch(error) {
         res.status(400).json({ message: error.message })
     }
@@ -64,10 +66,22 @@ app.get('/', (req, res) => {
 })
 
 app.put('/cats/:id', async (req, res) => {
+    req.body.readyToAdopt === 'on' || req.body.readyToAdopt === true?
+    req.body.readyToAdopt = true:
+    req.body.readyToAdopt = false
     try{
         const updatedCat = await Cat.findOneAndUpdate({ _id:req.params.id }, req.body, { new: true})
-        res.json(updatedCat)
+        res.redirect(`/cats/${updatedCat._id}`)
     } catch(error){
+        res.status(400).json({ message: error.message })
+    }
+})
+
+app.get('/cats/:id/edit', async (req, res) => {
+    try{
+        const foundCat = await Cat.findOne({ _id:req.params.id })
+        res.render('edit.ejs', {cat: foundCat})
+    }catch(error){
         res.status(400).json({ message: error.message })
     }
 })
@@ -75,6 +89,7 @@ app.put('/cats/:id', async (req, res) => {
 app.delete('/cats/:id', async (req, res) => {
     try{
         await Cat.findOneAndDelete({ _id: req.params.id})
+        res.redirect('/cats')
     }catch(error){
         res.status(400).json({ message: error.message})
     }
