@@ -12,6 +12,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(logger('tiny'))
 app.use(methodOverride('_method'))
+app.use(express.static(__dirname))
 
 mongoose.connect(MONGO_URI)
 

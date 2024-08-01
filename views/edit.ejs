@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit <%=cat.name%></title>
 </head>
+<link rel="stylesheet" href="/styles.css">
 <body>
   <h1>Edit <%= cat.name %></h1>
   <form action="/cats/<%=cat._id%>?_method=PUT" method="POST">
     <label for="name">Name:</label>
     <input type="text" name="name" value="<%= cat.name %>" />
     <label for="description">Description:</label>
-    <input type="text" description="description" value="<%= cat.description %>" />
+    <input type="text" name="description" value="<%= cat.description %>" />
     <label for="ready-to-adopt">Ready to Adopt?</label>
     
     <input
